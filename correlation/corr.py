@@ -1,9 +1,11 @@
 """
-Correlation of data or vectors. May involve auto correlation. 
+Correlation of data or vectors.
 """
 
 import numpy as np
-a = np.loadtxt('/localdisk/tests/dipole-moment.dat', usecols=(2,5))
+import tidynamics as td
+
+a = np.loadtxt('/localdisk/tests/dipole-moment.dat', usecols=(0,1,2,3))
 print(a)
 print(a.shape)
 print(a.ndim)
