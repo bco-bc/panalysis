@@ -1,11 +1,35 @@
-"""
-Correlation of data or vectors.
-"""
-
+import sys
 import numpy as np
 import tidynamics as td
 
-a = np.loadtxt('/localdisk/tests/dipole-moment.dat', usecols=(0,1,2,3))
-print(a)
-print(a.shape)
-print(a.ndim)
+
+def acf(data, n_use=50):
+    """Computes the auto correlation function (acf) of a vector
+
+    Parameters
+    ----------
+        data : ndarray
+            An (N,M) numpy array of dimension 2. The first column should
+            represent time, while the remaining ones are vector elements.
+        n_use : int
+            Only the first n_use elements of the ACF are returned. Default is 50.
+
+    Returns
+    -------
+        acf(data) : tuple
+            An tuple of length 3 with time, zeros, and acf, where acf is
+            normalized, each of length n_use.
+    """
+    time = data[:, 0]  # Each row, first column.
+    if time.size < n_use:
+        raise Exception('Cannot select first ', n_use, ' elements from ACF of length ', time.size, '.')
+    time0 = time[0]
+    time -= time0
+    v = data[:, 1:]    # Each row, columns 1 and up.
+    acf = td.acf(v)
+    acf0 = acf[0]
+    nacf = acf / acf0
+    pacf = nacf[0:n_use]
+    ptime = time[0:n_use]
+    zeros = np.zeros((n_use))
+    return ptime, zeros, pacf
