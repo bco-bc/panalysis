@@ -7,7 +7,6 @@ if len(sys.argv) != 2:
     print('Argument List: ', str(sys.argv))
     print('Usage: python3 plot_gr <filename>')
     print(' filename: Data input file. Must be provided.')
-    print(' n_use: Number of elements to use from ACF. Default is 50.')
     raise Exception('Missing input filename')
 
 fn = sys.argv[1]

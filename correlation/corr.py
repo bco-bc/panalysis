@@ -1,4 +1,3 @@
-import sys
 import numpy as np
 import tidynamics as td
 
@@ -33,5 +32,5 @@ def acf(data, n_use=50):
     nacf = acf / acf0
     pacf = nacf[0:n_use]
     ptime = time[0:n_use]
-    zeros = np.zeros((n_use))
+    zeros = np.zeros(n_use)
     return ptime, zeros, pacf
