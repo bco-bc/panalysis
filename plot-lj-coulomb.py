@@ -7,6 +7,7 @@ pi = np.pi
 e0 = 0.000572766
 eps = 2.5           # Default value of the relative permittivity (dielectric constant)
 dr = 0.01           # Distance spacing.
+r0 = 0.4            # Start value distance.
 
 if len(sys.argv) < 5:
     print('Number of arguments: ', len(sys.argv))
