@@ -189,6 +189,7 @@ def reaction_field(r, param):
     f1 = 1.0 + kappa * rc
     f2 = eps_rf * kappa2 * rc2
     C_rf = ((2.0 * eps_cs - 2.0 * eps_rf) * f1 - f2) / ( (eps_cs + 2.0 * eps_rf) * f1 + f2)
+    print('Reaction field, C_rf = ', C_rf)
     el = np.arange(0)
     for rij in r:
         if rij <= rc:
