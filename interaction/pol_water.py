@@ -5,10 +5,10 @@ import numpy as np
 import math
 from scipy import special
 
-K_b = 2.0e+6      # Force constant of bond between CG and DP.
-r_CW_DP = 0.2     # nm.
-C12 = 1.298e-3    # CW - CW interaction.
-C6 = 0.088        # CW - CW interaction.
+K_b = 2.0e+6      # Force constant of bond between CG and DP, in kJ/(mol nm^4).
+r_CW_DP = 0.2     # *Ideal' distance between the CW and DP particle.
+C12 = 1.298e-3    # CW - CW interaction, in kJ nm^12/mol.
+C6 = 0.088        # CW - CW interaction, in kJ nm^6/mol.
 
 
 def intra_dw_dp(r):
@@ -17,12 +17,12 @@ def intra_dw_dp(r):
     Parameters
     ----------
         r : nparray of floats
-            Holds distances between CW and CW.
+            Distances between CW and CW.
 
     Returns
     -------
-        intra_dw_dp(r) : nparray of floats.
-            PInteraction nergy at the given distances.
+        nparray of floats.
+            Interaction energy at the given distances.
     """
     epot = np.arange(0)
     for rij in r:

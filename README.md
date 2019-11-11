@@ -1,4 +1,8 @@
 # panalysis
-Various data analysis tools in python.
+Various simple data analysis tools for handling data from https://github.com/bco-bc/pt-cgmd
 
-IDE is PyCharm: https://www.jetbrains.com/pycharm/
+# Dependencies
+tidynamics: https://github.com/pdebuyl-lab/tidynamics
+
+# IDE
+PyCharm: https://www.jetbrains.com/pycharm/

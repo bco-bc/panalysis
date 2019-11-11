@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 if len(sys.argv) != 2:
     print('Number of arguments: ', len(sys.argv))
     print('Argument List: ', str(sys.argv))
-    print('Usage: python3 plot_gr <filename>')
+    print('Usage: python3.py plot_gr <filename>')
     print(' filename: Data input file. Must be provided.')
     raise Exception('Missing input filename')
 

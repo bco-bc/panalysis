@@ -1,4 +1,5 @@
-"""Reads temperature from a simuldation data output file, and generates a plot.
+"""Extracts the temperature from a simulation data output file, and generates a plot versus time, along with
+requested reference temperature and the time average.
 """
 
 import sys
@@ -8,7 +9,7 @@ import matplotlib.pyplot as plt
 if len(sys.argv) < 2:
     print('Number of arguments: ', len(sys.argv))
     print('Argument List: ', str(sys.argv))
-    print('Usage: python3 plot_gr <filename> (<Tref>)')
+    print('Usage: python3 plot_gr.py <filename> (<Tref>)')
     print(' filename: Data input file. Must be provided.')
     print(' Tref : Reference temperature. If ommited, 298.15 K is assumed.')
     raise Exception('Missing input filename')

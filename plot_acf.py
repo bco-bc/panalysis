@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 if len(sys.argv) < 2:
     print('Number of arguments: ', len(sys.argv))
     print('Argument List: ', str(sys.argv))
-    print('Usage: python3 v_acf <filename> <n_use>')
+    print('Usage: python3 v_acf.py <filename> <n_use>')
     print(' filename: Data input file. Must be provided.')
     print(' n_use: Number of elements to use from ACF. Default is 50.')
     raise Exception('Missing input filename')
@@ -32,8 +32,8 @@ data = np.loadtxt(fn, usecols=(0, 1, 2, 3))
 # Extract time and vector.
 results = corr.acf(data, n_use)
 time = results[0]
-zeros = results[1]
-acf = results[2]
+zeros = np.zeros(n_use)
+acf = results[1]
 
 plt.plot(time, acf)
 plt.plot(time, zeros);

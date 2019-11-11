@@ -1,3 +1,5 @@
+"""Plot for several approximate schemes the Coulomb interaction between two charges at given distances.
+"""
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,22 +14,37 @@ dr = 0.1            # Distance spacing.
 r0 = 0.1            # Start value distance.
 alpha = 2.0         # Damping parameter, in nm^-1
 kappa = 0.0         # Inverse Debye length.
+q1 = -0.575         # Default charge value #1
+q2 = +0.575         # Default charge value #2
+rc = 2.6            # Default cutoff distance, nm.
 
-if len(sys.argv) < 4:
-    print('Number of arguments: ', len(sys.argv))
-    print('Argument List: ', str(sys.argv))
-    print('Usage: python3 plot_coulomb <q1> <q2> <rc> (<eps>)')
-    print('Use \'molecular units\'. Relative permittivity \'eps\' is optional, default value is 2.5.')
-    raise Exception("Missing charge values.")
+print('Usage: python3 plot_coulomb.py (<q1> <q2> <rc> (<eps>)')
+print('All arguments are optional.')
+print('q1, q2 are the charge value #1, default are ', q1, ' and ', q2, ' , respectively.')
+print('rc is the cutoff distance. Default is ', rc)
+print('eps is relative permittivity, default value is ', eps, '.')
 
+if len(sys.argv) == 2:
+    q1 = float(sys.argv[1])
+if len(sys.argv) == 3:
+    q1 = float(sys.argv[1])
+    q2 = float(sys.argv[2])
+if len(sys.argv) == 4:
+    q1 = float(sys.argv[1])
+    q2 = float(sys.argv[2])
+    rc = float(sys.argv[3])
 if len(sys.argv) == 5:
+    q1 = float(sys.argv[1])
+    q2 = float(sys.argv[2])
+    rc = float(sys.argv[3])
     eps = float(sys.argv[4])
     eps_cs = eps
 
-q1 = float(sys.argv[1])
-q2 = float(sys.argv[2])
-rc = float(sys.argv[3])
-print ('rc = ', rc)
+print('q1 = ', q1)
+print('q2 = ', q2)
+print('rc = ', rc)
+print('eps = ', eps)
+
 C12 = 0.0
 C6 = 0.0
 param_exact = (q1, q2, eps, rc)
@@ -50,7 +67,7 @@ plt.plot(r, dsf, color='red', label=label)
 plt.plot(r, sf, color='blue', label='SF')
 plt.plot(r, sf3, color='green', label='SF3')
 plt.plot(r, rf, color='orange', label='RF')
-s = 'q1 = ' + str(q1) + ', q2 = ' + str(q2) + ', relative permittivity = ' + str(eps) + ', rc = ' + str(rc)
+s = 'q1 = ' + str(q1) + ', q2 = ' + str(q2) + ', eps = ' + str(eps) + ', rc = ' + str(rc)
 plt.title(s)
 plt.xlabel('r (nm)')
 plt.ylabel('U(r) (kJ/mol)')
