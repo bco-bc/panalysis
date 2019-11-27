@@ -1,4 +1,4 @@
-"""Plot for several approximate schemes the Coulomb interaction between two charges at given distances.
+"""Plots several approximate schemes for the Coulomb interaction between two charges at given distances.
 """
 import sys
 import numpy as np
@@ -52,8 +52,8 @@ param_sf = (q1, q2, eps, rc)
 param_dsf = (q1, q2, eps, rc, alpha)
 param_rf = (q1, q2, eps_cs, eps_rf, rc, kappa)
 
-r = np.arange(r0, rc, dr)
-r = np.append(r, rc)
+r = np.arange(r0, rc+dr, dr)
+
 coulomb_rc = lj_coulomb.coulomb_cutoff(r, param_exact)
 sf = lj_coulomb.shifted_force(r, param_sf)
 dsf = lj_coulomb.damped_shifted_force(r, param_dsf)

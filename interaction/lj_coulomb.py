@@ -14,7 +14,7 @@ def potential(r, param):
 
     Parameters
     ----------
-        r : float or nparray.
+        r : float or ndarray.
             Distance or distances (nm).
         param : tuple
             Must hold 'q1', 'q2', 'eps', 'C12', and 'C6', in that order. All float values. The latter two are the
@@ -46,7 +46,7 @@ def coulomb_cutoff(r, param):
 
     Parameters
     ----------
-        r : nparray of floats
+        r : ndarray of floats
             Distances (nm)
         param : tuple
             Must hold 'q1', 'q2', 'eps', and 'rc', that is two charge values, the relative permittivity
@@ -54,7 +54,7 @@ def coulomb_cutoff(r, param):
 
     Returns
     -------
-        nparray of floats
+        ndarray of floats
             Electrostatic interaction energies at given distances.
     """
     q1 = param[0]
@@ -77,7 +77,7 @@ def shifted_force(r, param):
 
     Parameters
     ----------
-        r : nparray of floats
+        r : ndarray of floats
             Distances (nm)
         param : tuple
             Must hold 'q1', 'q2', 'eps', and 'rc', that is two charge values, the relative permittivity
@@ -85,7 +85,7 @@ def shifted_force(r, param):
 
     Returns
     -------
-        nparray
+        ndarray
             Electrostatic interaction energies at given distances.
     """
     q1 = param[0]
@@ -109,7 +109,7 @@ def damped_shifted_force(r, param):
 
     Parameters
     ----------
-        r : nparray of floats
+        r : ndarray of floats
             Distances (nm)
         param : tuple
             Must hold 'q1', 'q2', 'eps', 'rc', and 'alpha', that is two charge values, the relative permittivity
@@ -117,7 +117,7 @@ def damped_shifted_force(r, param):
 
     Returns
     -------
-        nparray of floats
+        ndarray of floats
             Electrostatic interaction energies at given distances.
     """
     q1 = param[0]
@@ -149,7 +149,7 @@ def shifted_force_3nd_derivative(r, param):
 
     Parameters
     ----------
-        r : nparray of floats
+        r : ndarray of floats
             Distances (nm)
         param : tuple
             Must hold 'q1', 'q2', 'eps', and 'rc', that is two charge values, the relative permittivity
@@ -157,7 +157,7 @@ def shifted_force_3nd_derivative(r, param):
 
     Returns
     -------
-        nparray of floats
+        ndarray of floats
             Electrostatic interaction energies at given distances.
     """
     q1 = param[0]
@@ -187,7 +187,7 @@ def reaction_field(r, param):
 
     Parameters
     ----------
-        r : nparray of floats
+        r : ndarray of floats
             Distances (nm)
         param : tuple
             Must hold 'q1', 'q2', 'eps_cs', 'eps_rf, and 'rc', that is two charge values, the relative permittivity
@@ -196,7 +196,7 @@ def reaction_field(r, param):
 
     Returns
     -------
-        nparray of floats
+        ndarray of floats
             Electrostatic interaction energies at given distances.
     """
     q1 = param[0]
