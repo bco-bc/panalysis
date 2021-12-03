@@ -14,8 +14,8 @@ dr = 0.1            # Distance spacing.
 r0 = 0.1            # Start value distance.
 alpha = 2.0         # Damping parameter, in nm^-1
 kappa = 0.0         # Inverse Debye length.
-q1 = -0.575         # Default charge value #1
-q2 = +0.575         # Default charge value #2
+q1 = 0.5           # Default charge value #1
+q2 = -0.5           # Default charge value #2
 rc = 2.6            # Default cutoff distance, nm.
 
 print('Usage: python3 plot_coulomb.py (<q1> <q2> <rc> (<eps>)')
@@ -57,15 +57,15 @@ r = np.arange(r0, rc+dr, dr)
 coulomb_rc = lj_coulomb.coulomb_cutoff(r, param_exact)
 sf = lj_coulomb.shifted_force(r, param_sf)
 dsf = lj_coulomb.damped_shifted_force(r, param_dsf)
-sf3 = lj_coulomb.shifted_force_3nd_derivative(r, param_sf)
+sfg = lj_coulomb.shifted_force_gradient(r, param_sf)
 rf = lj_coulomb.reaction_field(r, param_rf)
 
 # Plot graph.
-plt.plot(r, coulomb_rc, color='black', label='RC')
+plt.plot(r, coulomb_rc, color='black', label='Coulomb')
 label = 'DSF, alpha = ' + str(alpha) + '/nm'
 plt.plot(r, dsf, color='red', label=label)
 plt.plot(r, sf, color='blue', label='SF')
-plt.plot(r, sf3, color='green', label='SF3')
+plt.plot(r, sfg, color='green', label='SFG')
 plt.plot(r, rf, color='orange', label='RF')
 s = 'q1 = ' + str(q1) + ', q2 = ' + str(q2) + ', eps = ' + str(eps) + ', rc = ' + str(rc)
 plt.title(s)

@@ -1,9 +1,8 @@
-import numpy as np
 import tidynamics as td
 
 
-def acf(data, n_use=50):
-    """Computes the normalized auto correlation function (ACF) of a time dependent quantity or vector
+def calculate(data, n_use=50):
+    """Calculates the normalized auto util function (ACF) of a time dependent quantity or vector
 
     Parameters
     ----------

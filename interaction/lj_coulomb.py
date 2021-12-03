@@ -42,7 +42,7 @@ def potential(r, param):
 
 
 def coulomb_cutoff(r, param):
-    """Returns the Coulomb interaction, zero beyond the cutoff distance. This implementation is referred to as RC.
+    """Returns the Coulomb interaction, zero beyond the cutoff distance. This implementation is referred to as Coulomb.
 
     Parameters
     ----------
@@ -61,7 +61,7 @@ def coulomb_cutoff(r, param):
     q2 = param[1]
     eps = param[2]
     rc = param[3]
-    el = np.arange(0)
+    el = np.zeros(shape=0)
     for rij in r:
         if rij <= rc:
             v = q1 * q2 / rij
@@ -73,7 +73,8 @@ def coulomb_cutoff(r, param):
 
 
 def shifted_force(r, param):
-    """Returns the shifted force (SF) electrostatic energy by Levitt et al., Comput. Phys. Commun. 1995, 91, 215−231.
+    """Returns the shifted force ("SF") electrostatic energy by Levitt et al., Comput. Phys. Commun.
+    1995, 91, 215−231. See also Kale, S.; Herzfeld, J. J. Chem. Theory Comput. 2011, 7, 3620−3624.
 
     Parameters
     ----------
@@ -92,11 +93,12 @@ def shifted_force(r, param):
     q2 = param[1]
     eps = param[2]
     rc = param[3]
-    el = np.arange(0)
+    el = np.zeros(shape=0);
     rc2 = rc * rc
     for rij in r:
         if rij <= rc:
-            v = q1 * q2 * (1.0 / rij - 1.0 / rc + (rij - rc) / rc2)
+            # Levitt et al, Eq (6) (top line, C = q1*q2).
+            v = q1 * q2 * ( 1.0 / rij - 1.0 / rc + (rij - rc) / rc2 )
             v /= (4.0 * pi * e0 * eps)
             el = np.append(el, v)
         else:
@@ -105,15 +107,17 @@ def shifted_force(r, param):
 
 
 def damped_shifted_force(r, param):
-    """Returns the damped shifted force (DSF) electrostatic energy by Zahn et al, J. Phys. Chem. B 2002, 106, 10725.
+    """Returns the damped shifted force ("DSF") electrostatic energy by Zahn et al, J. Phys. Chem. B 2002, 106, 10725.
+    See also Fennell et al, J. Chem. Phys. v. 124, p. 234104, 2006.
 
     Parameters
     ----------
         r : ndarray of floats
             Distances (nm)
         param : tuple
-            Must hold 'q1', 'q2', 'eps', 'rc', and 'alpha', that is two charge values, the relative permittivity
-            (dielectric constant), cutoff distance (nm), and a damping parameter (nm^-1).
+            Must hold 'q1', 'q2', 'eps', 'rc', and 'alpha', that is two charge values,
+            the relative permittivity (dielectric constant), cutoff distance (nm),
+            and a damping parameter (nm^-1).
 
     Returns
     -------
@@ -128,14 +132,14 @@ def damped_shifted_force(r, param):
     rc2 = rc * rc
     alpha2 = alpha * alpha
     erfc_a_rc = special.erfc(alpha * rc)
-    f1 = erfc_a_rc / rc
     f2 = erfc_a_rc / (rc * rc)
     f3 = 2.0 * alpha * math.exp(-alpha2 * rc2) / (math.sqrt(pi) * rc)
     f = f2 + f3
-    el = np.arange(0)
+    el = np.zeros(shape=0)
     for rij in r:
         if rij <= rc:
-            v = q1 * q2 * (special.erfc(alpha * rij) / rij - f1 + f * (rij - rc))
+            # From Eq (13) in Zahn et al and Eq (5) in  Fennell et al.
+            v = q1 * q2 * ( special.erfc(alpha * rij) / rij - f * (rij - rc) )
             v /= (4.0 * pi * e0 * eps)
             el = np.append(el, v)
         else:
@@ -143,9 +147,9 @@ def damped_shifted_force(r, param):
     return el
 
 
-def shifted_force_3nd_derivative(r, param):
-    """Returns the shifted force electrostatic energy by Kale, S.; Herzfeld, J. J. Chem. Theory Comput. 2011, 7, 3620−
-3624.
+def shifted_force_gradient(r, param):
+    """Returns the shifted force gradient ("SFG") electrostatic energy by
+    Kale, S.; Herzfeld, J. J. Chem. Theory Comput. 2011, 7, 3620−3624.
 
     Parameters
     ----------
@@ -166,14 +170,16 @@ def shifted_force_3nd_derivative(r, param):
     rc = param[3]
     rc2 = rc * rc
     rc3 = rc2 * rc
-    rc4 = rc3 * rc
-    el = np.arange(0)
+    # rc4 = rc3 * rc
+    el = np.zeros(shape=0)
     for rij in r:
         if rij <= rc:
             rij_rc = rij - rc
             rij_rc_2 = rij_rc * rij_rc
-            rij_rc_3 = rij_rc_2 * rij_rc
-            v = q1 * q2 * (1.0 / rij - 1.0 / rc + rij_rc / rc2 - rij_rc_2 / rc3 + rij_rc_3 / rc4)
+            # rij_rc_3 = rij_rc_2 * rij_rc
+            # Eq (5) in Kale et al.
+            v = q1 * q2 * (1.0 / rij - 1.0 / rc + rij_rc / rc2 - rij_rc_2 / rc3)
+            # v = q1 * q2 * (1.0 / rij - 1.0 / rc + rij_rc / rc2 - rij_rc_2 / rc3 + rij_rc_3 / rc4)
             v /= (4.0 * pi * e0 * eps)
             el = np.append(el, v)
         else:
@@ -213,13 +219,20 @@ def reaction_field(r, param):
     C_rf = ((2.0 * eps_cs - 2.0 * eps_rf) * f1 - f2) / ((eps_cs + 2.0 * eps_rf) * f1 + f2)
     print('Reaction field: C_rf = ', C_rf)
     el = np.arange(0)
+    factor = 4.0 * pi * e0 * eps_cs;
+    c1 = q1 * q2 / factor
     for rij in r:
         if rij <= rc:
             rij2 = rij * rij
+            c = c1 / rij
+            rf = -c1 * (0.5 * C_rf * rij2 / rc3 + (1.0 - 0.5 * C_rf) / rc)
+            v = c + rf;
+            """
             v_c = q1 * q2 / rij
             v_rf = - q1 * q2 * (0.5 * C_rf * rij2 / rc3 + (1.0 - 0.5 * C_rf) / rc)
             v = v_c + v_rf
             v /= (4.0 * pi * e0 * eps_cs)
+            """
             el = np.append(el, v)
         else:
             el = np.append(el, 0.0)
