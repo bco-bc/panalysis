@@ -28,7 +28,7 @@ class Trajectory():
 
         counter = 0
         for p in particle_system.all:
-            p.r = np.array([float(items[counter]), float(items[counter+1]), float(items[counter+2])])
+            p.r = np.array([float(items[counter]), float(items[counter + 1]), float(items[counter + 2])])
             p.v = np.array([float(items[counter+3]), float(items[counter+4]), float(items[counter+5])])
             if p.spec.protonatable:
                 pass

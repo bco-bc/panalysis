@@ -21,6 +21,7 @@ class SliceNumberDensity(Analyzer):
         self.dz = dz
         self.spec = spec
         self.box = box
+
         self.n = int(self.box[2] / self.dz)
         self.dz = self.box[2] / self.n
         self.histogram = np.zeros(shape=self.n)
@@ -31,7 +32,7 @@ class SliceNumberDensity(Analyzer):
         self.counter += 1
         for p in particle_system.all:
             if p.spec.name is self.spec.name:
-                r_in = util.box.place_in_box(particle_system.box, p.r)
+                r_in = util.box.place_in_box(particle_system.box, p.r_queue)
                 z = r_in[2]
                 index = int(z / self.dz)
                 self.histogram[index] += 1.0
