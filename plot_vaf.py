@@ -1,5 +1,6 @@
 """Plot velocity autocorrelation function (VAF) over a given time interval.
 """
+
 from analysis.vaf import VAF
 from particle.particle_system import read_particle_sys
 from particle.particle_spec_catalog import read_particle_spec_catalog
@@ -9,9 +10,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate, integrate
 import scipy.constants as constants
+import logging
 
 
 if __name__ == '__main__':
+
+    logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO)
 
     if len(sys.argv) < 7:
         print('Usage:')
@@ -42,12 +46,13 @@ if __name__ == '__main__':
         analyzer.perform(particle_system)
     trajectory.close()
     t, vaf = analyzer.results()
-    print(f'Number of particles with particle specification \'{analyzer.spec.name}\': {analyzer.n_specs}')
-    print(f'Length of time interval: {analyzer.t_max}')
-    print(f'Number of states in trajectory: {analyzer.counter}')
-    print(f'Length of trajectory: {analyzer.counter * analyzer.dt} ps')
 
-    # Create cubic interpolation.
+    logging.info(f'Number of particles with particle specification \'{analyzer.spec.name}\': {analyzer.n_specs}')
+    logging.info(f'Length of time interval: {analyzer.t_max}')
+    logging.info(f'Number of states in trajectory: {analyzer.counter}')
+    logging.info(f'Length of trajectory: {analyzer.counter * analyzer.dt} ps')
+
+    # Cubic interpolation.
     f_vaf = interpolate.interp1d(t, vaf, kind='cubic')
     n = t.size * 2
     t_new = np.linspace(0, t[t.size - 1], num=2*t.size, endpoint=True)
@@ -68,7 +73,7 @@ if __name__ == '__main__':
     plt.plot(t, vaf, 'o', color='red')
     plt.plot(t_new, vaf_new, '--', color='blue')
     plt.xlabel(r'$t$ (ps)')
-    plt.plot(t, zeros, color='black')
+    plt.plot(t, zeros, '--', color='black')
     plt.ylabel(r'$<v(t+s)v(t)$')
     plt.legend(['data', 'cubic'])
     plt.show()

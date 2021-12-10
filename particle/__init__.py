@@ -1,4 +1,5 @@
 import particle.particle
+import particle.particle_group
 import particle.particle_spec
 import particle.particle_spec_catalog
 import particle.particle_system

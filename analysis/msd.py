@@ -15,9 +15,9 @@ class MSD(Analyzer):
 
     def __init__(self, dt: float, t_max: float, spec: ParticleSpec):
         """Constructor
-        :param dt Length of time interval between successive states.
-        :param t_max Length of time interval. Must be positive and a multiple of dt.
-        :param spec Particle specification identifying particle for which the displacement is computed.
+        :param dt Length of time interval between successive states
+        :param t_max Length of time interval
+        :param spec Particle specification identifying particle for which the displacement is computed
         """
         self.dt = dt
         self.t_max = t_max
@@ -28,7 +28,7 @@ class MSD(Analyzer):
         self.bin_size = self.t_max / self.n_bins
         self.n_specs = 0
         self.r_i = np.zeros(shape=0)                 # Positions at t in [t, t+t_max]
-        self.r_queue = Queue()    # Positions in [t, t+t_max]
+        self.r_queue = Queue()                       # Positions in [t, t+t_max]
         self.msd = np.zeros(shape=self.n_bins)       # MSD
 
     def perform(self, particle_system: ParticleSystem):
@@ -44,7 +44,6 @@ class MSD(Analyzer):
         if t > self.t_max:
             self.r_i = self.r_queue.get()
 
-        print(f'Length r_queue: {len(self.r_queue.queue)}')
         for n in np.arange(0, len(self.r_queue.queue)):
             r_n = self.r_queue.get()
             for k in np.arange(0, len(r_n)):

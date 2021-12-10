@@ -1,15 +1,24 @@
 """Particle system
 """
+from typing import List
 
 from particle.particle_spec_catalog import ParticleSpecCatalog
 from particle.particle import Particle
+from particle.particle_group import ParticleGroup
 import numpy as np
+import logging
 
 
-class ParticleSystem():
-    """Represents a physical system."""
+class ParticleSystem:
+    """Represents a physical system.
+    """
+
+    all: List[Particle]
+    free: List[Particle]
+    groups: List[ParticleGroup]
 
     def __init__(self):
+        # Lists.
         self.all = []
         self.free = []
         self.groups = []
@@ -22,25 +31,25 @@ class ParticleSystem():
         for p in self.all:
             if p.pid == pid:
                 return p
-        raise ValueError(f'{pid}: No particle with this identifier.')
+        raise ValueError(f'{pid}: No particle with this identifier exists in particle system.')
 
     def add_free(self, particle: Particle):
-        """Adds a free particle to this particle system. The given particle must already exist in this
-        particle system
-        :param particle Free particle.
+        """Adds another free particle to this particle system. The given particle must already
+        exist in this particle system
+        :param particle A free particle.
         """
         self.find(particle.pid)
         self.free.append(particle)
 
     def add_particle(self, particle: Particle):
         """Adds another particle to this particle system
-        :param particle Particle"""
+        :param particle A particle"""
         self.all.append(particle)
 
-    def add_group(self):
+    def add_group(self, group: ParticleGroup):
         """Adds another particle group to this particle system
         """
-        pass
+        self.groups.append(group)
 
     def number_of_particles(self) -> int:
         """Returns total number of particles in this particle system
@@ -50,44 +59,86 @@ class ParticleSystem():
 
 
 def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
+    """Read particle system from a file
+    :param fn File name of file from which particle system is read
+    :param catalog Particle catalog
+    """
+
     particle_system = ParticleSystem()
-    counter = -1
-    with open(fn, 'r') as f:
-        for line in f:
+    f = open(fn, 'r')
+
+    # First line
+    line = f.readline()
+    items = line.split()
+    n_particles = int(items[0])
+    protonatable = bool(items[1] == '1')
+
+    # Read particles.
+    for k in np.arange(0, n_particles):
+        line = f.readline()
+        items = line.split()
+        name = items[0]
+        index = int(items[1])
+        spec = catalog.find(items[2])
+        pid = items[3]
+        r = np.array([float(items[4]), float(items[5]), float(items[6])])
+        v = np.array([float(items[7]), float(items[8]), float(items[9])])
+        if spec.protonatable:
+            # Read protonation state.
+            pass
+        particle = Particle(pid, index, name, spec, r, v)
+        particle_system.add_particle(particle)
+
+    # Free particles
+    line = f.readline()
+    items = line.split()
+    n_free = int(items[0])
+    if n_free > 0:
+        line = f.readline()
+        items = line.split()
+        for k in np.arange(0, n_free):
+            p = particle_system.find(items[k])
+            particle_system.add_free(p)
+
+    # Groups.
+    line = f.readline()
+    items = line.split()
+    n_groups = int(items[0])
+    for k in np.arange(0, n_groups):
+        group = ParticleGroup()
+        line = f.readline()
+        items = line.split()
+        n_particles_in_group = int(items[0])
+        line = f.readline()
+        items = line.split()
+        for l in np.arange(0, n_particles_in_group):
+            pid = items[l]
+            particle = particle_system.find(pid)
+            group.add_particle(particle)
+        line = f.readline()
+        items = line.split()
+        n_bonds = int(items[0])
+        for l in np.arange(0, n_bonds):
+            line = f.readline()
             items = line.split()
-            if counter == -1:
-                n_particles = int(items[0])
-            if 0 <= counter < n_particles:
-                # Read particles
-                name = items[0]
-                index = int(items[1])
-                spec = catalog.find(items[2])
-                id = items[3]
-                r = np.array([float(items[4]), float(items[5]), float(items[6])])
-                v = np.array([float(items[7]), float(items[8]), float(items[9])])
-                if spec.protonatable:
-                    # Read protonation state.
-                    pass
-                particle = Particle(id, index, name, spec, r, v)
-                particle_system.add_particle(particle)
-            # Free particles
-            if counter == n_particles:
-                n_free = int(items[0])
-            if counter == n_particles + 1:
-                i_values = np.arange(0, n_free)
-                for i in i_values:
-                    p = particle_system.find(items[i])
-                    particle_system.add_free(p)
-            if counter == n_particles + 2:
-                n_groups = int(items[0])
-            if counter == n_particles + 3 and n_groups != 0:
-                # Read groups
-                pass
-            elif counter == n_particles + 3 and n_groups == 0:
-                # Read box
-                particle_system.box = np.array([float(items[0]), float(items[1]), float(items[2])])
-            counter += 1
-    print(f'Particle system holds {len(particle_system.all)} particles.')
-    print(f'Particle system holds {len(particle_system.free)} free particles.')
-    print(f'Particle system holds {len(particle_system.groups)} particle groups.')
+            pid = items[0]
+            particle_1 = particle_system.find(pid)
+            pid = items[1]
+            particle_2 = particle_system.find(pid)
+            group.add_bond(p_1=particle_1, p_2=particle_2)
+        # Group description compete.
+        particle_system.add_group(group)
+
+    # Simulation box
+    line = f.readline()
+    items = line.split()
+    particle_system.box = np.array([float(items[0]), float(items[1]), float(items[2])])
+
+    # Done.
+    logging.info(f'Particle system holds {len(particle_system.all)} particles.')
+    logging.info(f'Particle system holds {len(particle_system.free)} free particles.')
+    logging.info(f'Particle system holds {len(particle_system.groups)} particle groups.')
+    logging.info(f'Box dimensions: {particle_system.box}')
+    logging.info(f'Particle system is protonatable: {protonatable}')
+
     return particle_system

@@ -16,7 +16,7 @@ class VAF(Analyzer):
     def __init__(self, dt: float, t_max: float, spec: ParticleSpec):
         """Constructor
         :param dt Time difference between states.
-        :param t_max Length of time interval. Must be positive.
+        :param t_max Length of time interval.
         :param spec Particle specification identifying particle for which the VAF is computed.
         """
         self.dt = dt
@@ -44,7 +44,6 @@ class VAF(Analyzer):
         if t > self.t_max:
             self.v_i = self.v_queue.get()
 
-        print(f'Length v_queue: {len(self.v_queue.queue)}')
         for n in np.arange(0, len(self.v_queue.queue)):
             v_n = self.v_queue.get()
             for k in np.arange(0, len(v_n)):

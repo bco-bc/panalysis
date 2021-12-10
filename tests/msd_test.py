@@ -5,6 +5,8 @@ import simulation.trajectory
 from analysis.msd import MSD
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import logging
+
 
 if __name__ == '__main__':
     fn = '/localdisk/resources/particles-specs.dat'
