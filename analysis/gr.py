@@ -50,11 +50,11 @@ class Gr(Analyzer):
                 raise ValueError(f'({self.spec_1.name}, {self.spec_2.name}): no such particle(s).')
         for pi in particle_system.all:
             if pi.spec.name == self.spec_1.name:
-                r_i = pi.r_queue
+                r_i = pi.r
                 for pj in particle_system.all:
                     if pi.pid != pj.pid:
                         if pj.spec.name == self.spec_2.name:
-                            r_j = pj.r_queue
+                            r_j = pj.r
                             r_ij = util.box.pbc_distance(self.box, r_i, r_j)
                             distance = np.linalg.norm(r_ij)
                             index = int(distance / self.bin_size)

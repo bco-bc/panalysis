@@ -11,35 +11,54 @@ import matplotlib.pyplot as plt
 from scipy import interpolate, integrate
 import scipy.constants as constants
 import logging
+import util
+
+
+def usage():
+    print()
+    print('Usage: python plot_vaf.py [OPTION [value]]...')
+    print('Description: Computes and plots the velocity autocorrelation function (VAF).')
+    print()
+    print('Required arguments:')
+    print('-ps FN: FN is the file name of the particle system')
+    print('-dt VALUE: VALUE is the time difference between states in trajectory.')
+    print('-t-max VALUE: VALUE is the length of time interval (in ps) over which VAF is calculated.')
+    print('-spec NAME: NAME is the particle specification name.')
+    print()
+    print('Optional arguments:')
+    print('-s FN: FN is the filename particle specifications. Default is \'particle-specs.dat\'.')
+    print('-tr FN: FN is the trajectory file name. Default is \'trajectory.dat\'')
+    print('-T VALUE: VALUE is the temperature (in K). Default is 298.15 K.')
+    print()
 
 
 if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO)
 
-    if len(sys.argv) < 7:
-        print('Usage:')
-        print('python fnParticleSpecs fnParticleSystem fnTrajectory spec dt t_max temperature')
-        print('fnParticleSpecs: File name particle specifications')
-        print('fnParticleSystem: File name particle system.')
-        print('fnTrajectory: File name trajectory file.')
-        print('spec: Particle specification name.')
-        print('dt: Time interval between trajectory entries')
-        print('t_max: Length of time interval for displacement calculation.')
-        print('temperature: Temperature of the particle system. Default is 298.18')
-        raise Exception('Missing argument')
-
-    catalog = read_particle_spec_catalog(sys.argv[1])
-    particle_system = read_particle_sys(sys.argv[2], catalog)
-    spec = catalog.find(sys.argv[4])
-    dt = float(sys.argv[5])
-    t_max = float(sys.argv[6])
+    conf = util.parse_argv.parse(sys.argv)
+    fn_trajectory = 'trajectory.dat'
     temperature = 298.15
-    if len(sys.argv) == 8:
-        temperature = float(sys.argv[7])
+    t_max = 0.0
+    spec = ''
+    dt = 0.0
+    particle_system = ''
+    try:
+        catalog = read_particle_spec_catalog(conf['fn-particle-specs'])
+        fn_ps = conf['fn-particle-system']
+        particle_system = read_particle_sys(fn_ps, catalog)
+        spec = catalog.find(conf['spec'])
+        dt = conf['dt']
+        t_max = conf['t-max']
+        temperature = conf['temperature']
+        fn_trajectory = conf['fn-trajectory']
+    except (KeyError, FileNotFoundError, FileExistsError):
+        print(f'Received arguments: {conf}')
+        usage()
+        sys.exit("Missing input argument(s).")
 
     # Compute VAF.
-    trajectory = Trajectory(sys.argv[3])
+    trajectory = Trajectory(fn_trajectory)
     bin_size = dt
     analyzer = VAF(dt, t_max, spec)
     while trajectory.next(particle_system):
@@ -49,7 +68,7 @@ if __name__ == '__main__':
 
     logging.info(f'Number of particles with particle specification \'{analyzer.spec.name}\': {analyzer.n_specs}')
     logging.info(f'Length of time interval: {analyzer.t_max}')
-    logging.info(f'Number of states in trajectory: {analyzer.counter}')
+    logging.info(f'Number of states/entries in trajectory: {analyzer.counter}')
     logging.info(f'Length of trajectory: {analyzer.counter * analyzer.dt} ps')
 
     # Cubic interpolation.
@@ -58,14 +77,15 @@ if __name__ == '__main__':
     t_new = np.linspace(0, t[t.size - 1], num=2*t.size, endpoint=True)
     vaf_new = f_vaf(t_new)
 
+    # Function for integration.
     def vaf_f(time) -> float:
         return f_vaf(time)
 
     a = 0.0
     b = t[t.size-1]
     val, err = integrate.quadrature(func=vaf_f, a=a, b=b, maxiter=1000)
-    k = constants.k * constants.N_A / 1.0e+03  # In kJ/(mol K)
-    D = k * temperature / spec.mass * val
+    k_B = constants.k * constants.N_A / 1.0e+03  # Boltzmann constant In kJ/(mol K)
+    D = k_B * temperature / spec.mass * val
     print(f'Diffusion (self) constant: {D} nm^2/ps')
 
     # Plot VAF

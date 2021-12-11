@@ -22,7 +22,7 @@ class ParticleSystem:
         self.all = []
         self.free = []
         self.groups = []
-        self.box = [0.0, 0.0, 0.0]
+        self.box = np.zeros(shape=(3, 1))
 
     def find(self, pid: str):
         """Finds a particle in this particle system
@@ -57,6 +57,11 @@ class ParticleSystem:
         """
         return len(self.all)
 
+    def box_volume(self) -> float:
+        """Returns box volume
+        """
+        return self.box[0] * self.box[1] * self.box[2]
+
 
 def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
     """Read particle system from a file
@@ -74,7 +79,7 @@ def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
     protonatable = bool(items[1] == '1')
 
     # Read particles.
-    for k in np.arange(0, n_particles):
+    for _ in np.arange(0, n_particles):
         line = f.readline()
         items = line.split()
         name = items[0]
@@ -89,7 +94,7 @@ def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
         particle = Particle(pid, index, name, spec, r, v)
         particle_system.add_particle(particle)
 
-    # Free particles
+    # Read free particles
     line = f.readline()
     items = line.split()
     n_free = int(items[0])
@@ -100,25 +105,29 @@ def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
             p = particle_system.find(items[k])
             particle_system.add_free(p)
 
-    # Groups.
+    # Read particle groups.
     line = f.readline()
     items = line.split()
     n_groups = int(items[0])
-    for k in np.arange(0, n_groups):
+    for _ in np.arange(0, n_groups):
         group = ParticleGroup()
+
+        # Particles in group.
         line = f.readline()
         items = line.split()
         n_particles_in_group = int(items[0])
         line = f.readline()
         items = line.split()
-        for l in np.arange(0, n_particles_in_group):
-            pid = items[l]
+        for k in np.arange(0, n_particles_in_group):
+            pid = items[k]
             particle = particle_system.find(pid)
             group.add_particle(particle)
         line = f.readline()
         items = line.split()
+
+        # Bonds.
         n_bonds = int(items[0])
-        for l in np.arange(0, n_bonds):
+        for _ in np.arange(0, n_bonds):
             line = f.readline()
             items = line.split()
             pid = items[0]
@@ -126,10 +135,11 @@ def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
             pid = items[1]
             particle_2 = particle_system.find(pid)
             group.add_bond(p_1=particle_1, p_2=particle_2)
-        # Group description compete.
+
+        # Group description compete. Add it to the particle system.
         particle_system.add_group(group)
 
-    # Simulation box
+    # Box
     line = f.readline()
     items = line.split()
     particle_system.box = np.array([float(items[0]), float(items[1]), float(items[2])])
@@ -139,6 +149,6 @@ def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
     logging.info(f'Particle system holds {len(particle_system.free)} free particles.')
     logging.info(f'Particle system holds {len(particle_system.groups)} particle groups.')
     logging.info(f'Box dimensions: {particle_system.box}')
-    logging.info(f'Particle system is protonatable: {protonatable}')
+    logging.info(f'Protonatable particle system? {protonatable}')
 
     return particle_system

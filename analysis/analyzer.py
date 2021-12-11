@@ -13,7 +13,7 @@ class Analyzer:
         pass
 
     @staticmethod
-    def number_of_specs(particle_system: ParticleSystem, spec: ParticleSpec):
+    def number_of_specs(particle_system: ParticleSystem, spec: ParticleSpec) -> int:
         """Returns number of particle of given specification.
         """
         n_specs = 0
@@ -23,23 +23,21 @@ class Analyzer:
         return n_specs
 
     @staticmethod
-    def positions(particle_system: ParticleSystem):
+    def positions(particle_system: ParticleSystem) -> np.ndarray:
         """Returns current positions
         """
-        r = np.ndarray(shape=(len(particle_system.all), 3))
-        p_index = 0
-        for p in particle_system.all:
-            r[p_index] = p.r
-            p_index += 1
+        size = len(particle_system.all)
+        r = np.ndarray(shape=(size, 3))
+        for i in np.arange(0, size):
+            r[i] = particle_system.all[i].r
         return r
 
     @staticmethod
     def velocities(particle_system: ParticleSystem) -> np.ndarray:
         """Returns current velocities.
         """
-        v = np.ndarray(shape=(len(particle_system.all), 3))
-        p_index = 0
-        for p in particle_system.all:
-            v[p_index] = p.v
-            p_index += 1
+        size = len(particle_system.all)
+        v = np.ndarray(shape=(size, 3))
+        for i in np.arange(0, size):
+            v[i] = particle_system.all[i].v
         return v
