@@ -62,6 +62,14 @@ class ParticleSystem:
         """
         return self.box[0] * self.box[1] * self.box[2]
 
+    def charge(self) -> float:
+        """Returns total of this particle system
+        """
+        q = 0
+        for p in self.all:
+            q += p.charge()
+        return q;
+
 
 def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:
     """Read particle system from a file

@@ -44,7 +44,7 @@ def read_particle_spec_catalog(fn: str) -> ParticleSpecCatalog:
                 protonatable = items[1] == '1'
                 free = items[2] == '1'
                 mass = float(items[3])
-                charge = float(items[5])
+                charge = float(items[4])
                 radius = float(items[5])
                 pKa = float(items[6])
                 spec = ParticleSpec(name, charge, mass, radius, pKa, free, protonatable)

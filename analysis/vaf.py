@@ -53,7 +53,7 @@ class VAF(Analyzer):
             self.v_queue.put(v_n)
 
     def results(self) -> (np.ndarray, np.ndarray):
-        """Returns t and vaf(t)/vaf(0)
+        """Returns t and vaf(t)/vaf(0) over the time interval [0,t_max],
         """
         self.vaf /= (self.counter * self.n_specs)
         vaf_0 = self.vaf[0]

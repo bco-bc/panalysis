@@ -39,7 +39,7 @@ class SliceNumberDensity(Analyzer):
 
     def results(self):
         """Returns number density """
-        volume_slice = self.box[0] * self.box[1] * self.dz
+        volume_slice = self.box[0] * selolef.box[1] * self.dz
         number_densities = self.histogram / (float(self.counter) * volume_slice)
         z = np.zeros(shape = self.n)
         k_values = np.arange(0, self.n)

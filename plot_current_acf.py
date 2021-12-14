@@ -34,7 +34,6 @@ def usage():
 
 
 if __name__ == '__main__':
-
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO)
 
     conf = util.parse_argv.parse(sys.argv)
@@ -72,12 +71,16 @@ if __name__ == '__main__':
     while trajectory.next(particle_system):
         analyzer.perform(particle_system)
     trajectory.close()
-    t, current_acf = analyzer.results()
+    t, current, current_acf = analyzer.results()
     logging.info(f'Length of time interval: {analyzer.t_max}')
     logging.info(f'Number of states/entries in trajectory: {analyzer.counter}')
     logging.info(f'Length of trajectory: {analyzer.counter * analyzer.dt} ps')
+    logging.info(f'Length of trajectory: {analyzer.counter * analyzer.dt / 1000.0} ns')
+    ave = sum(current[:]) / analyzer.counter
+    print(f'Current averaged over full trajectory: {ave}')
+    print(f'Norm of average current: {np.linalg.norm(ave)}')
 
-    # Cubic interpolation.
+    # Cubic interpolation for computing <J(t)> if there is a constant external field.
     if np.linalg.norm(ef_0) > 0.0:
         f_current_acf = interpolate.interp1d(t, current_acf, kind='cubic')
 
@@ -98,13 +101,35 @@ if __name__ == '__main__':
         ave_current = np.zeros(shape=0)
 
     # Plot electric current ACF
+    figure = plt.figure(figsize=(8, 8))
+    plt.subplot(3, 1, 1)
     zeros = np.zeros(shape=analyzer.n_bins)
     plt.plot(t, current_acf, color='red')
     plt.plot(t, zeros, '--', color='black')
     plt.xlabel(r'$t$ (ps)')
     plt.ylabel(r'$\frac{<J(t)J(0)>}{<J(0)J(0)>}$ ((e.nm/ps)$^2$)')
 
+    plt.subplot(3, 1, 2)
+    t2 = np.arange(analyzer.dt, (analyzer.counter + 1) * analyzer.dt, step=analyzer.dt)
+    # Convert to ns.
+    t2 /= 1000.0
+    norm_current = np.zeros(shape=(len(current), 1))
+    norm_current_t = np.zeros(shape=(len(current), 1))
+    zeros2 = np.zeros(shape=norm_current.shape)
+    current_t = np.array([0.0, 0.0, 0.0])
+    for k in np.arange(0, len(current)):
+        current_t += current[k]
+        norm_current[k] = np.linalg.norm(current[k])
+        ave_current_t = current_t / (k + 1.0)
+        norm_current_t[k] = np.linalg.norm(ave_current_t)
+    plt.plot(t2, current, color='grey')
+    plt.plot(t2, norm_current_t, color='red')
+    plt.plot(t2, zeros2, '--', color='black')
+    plt.xlabel(r'$t$ (ns)')
+    plt.ylabel(r'$J_k, k\in{x,y,z}$')
+
     if np.linalg.norm(ef_0) > 0.0:
+        plt.subplot(3, 1, 3)
         ave = np.zeros(shape=t_new.size)
         a_index = 0
         for a in ave_current:
@@ -112,4 +137,5 @@ if __name__ == '__main__':
             a_index += 1
         plt.plot(t_new, ave, color='blue')
 
+    figure.tight_layout(pad=0.5)
     plt.show()
