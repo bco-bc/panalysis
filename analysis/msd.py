@@ -37,6 +37,8 @@ class MSD(Analyzer):
 
         if self.counter == 1:
             self.n_specs = Analyzer.number_of_specs(particle_system, self.spec)
+            if self.n_specs == 0:
+                raise ValueError(f'{self.spec.name}: No such particle with this specification.')
             self.r_i = Analyzer.positions(particle_system)
 
         r_now = Analyzer.positions(particle_system)

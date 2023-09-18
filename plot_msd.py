@@ -62,6 +62,7 @@ if __name__ == '__main__':
         analyzer.perform(particle_system)
     trajectory.close()
     t, msd = analyzer.results()
+    print(f'Results: Times: {t}, MSD: {msd}')
     logging.info(f'Number of particles with particle specification \'{analyzer.spec.name}\': {analyzer.n_specs}')
     logging.info(f'Length of time interval: {analyzer.t_max}')
     logging.info(f'Number of states in trajectory: {analyzer.counter}')
@@ -83,7 +84,9 @@ if __name__ == '__main__':
         index += 1
 
     D = prediction[t.size - 1] / (6.0 * t[t.size - 1])
-    print(f'Diffusion (self) constant: {D} nm^2/ps')
+    print(f'(Self) Diffusion constant: {D} nm^2/ps')
+    D *= 1.0e-02
+    print(f'(Self) Diffusion constant: {D} cm^2/s')
 
     # Plot displacement.
     plt.plot(t, msd, color='red')

@@ -6,17 +6,30 @@ import logging
 
 
 def parse(argv: sys.argv) -> dict:
-    """Parses program options. Read options and associated values, if required. E.g.,
+    """Parses program options. Read options and associated values. E.g.,
     '-s particle-specs.dat', where the option is '-s' and the associated value is
     'particle-specs.dat'
     """
 
     # Defaults
     configuration = {'fn-trajectory': 'trajectory.dat',
+                     'fn-data': 'simulation.dat',
                      'fn-particle-specs': 'particle-specs.dat',
                      'temperature': 298.15,
+                     'distance' : 0.0,
                      'E0': 0.0,
-                     'direction-E0': 'x'}
+                     'direction': 'z',
+                     'second-direction': 'x',
+                     'pbc': [0, 1, 2],
+                     'bin-size': 0.1,
+                     'exclude': None,
+                     'dt': 0.002,
+                     'n-skip' : 0,
+                     'id-1': '',
+                     'id-2': '',
+                     'spec-1': '',
+                     'spec-2': '',
+                     't-max': 0.0}
 
     # Default settings.
     counter = 1
@@ -34,6 +47,12 @@ def parse(argv: sys.argv) -> dict:
             configuration['fn-trajectory'] = argv[counter]
             entry = configuration['fn-trajectory']
             logging.info(f'Trajectory file name: {entry}')
+        if item == '-fn-data':
+            # File name simulation data
+            counter += 1
+            configuration['fn-data'] = argv[counter]
+            entry = configuration['fn-data']
+            logging.info(f'Simulation data file name: {entry}')
         if item == '-ps':
             # File name particle system.
             counter += 1
@@ -64,18 +83,30 @@ def parse(argv: sys.argv) -> dict:
             configuration['E0'] = float(argv[counter])
             entry = configuration['E0']
             logging.info(f"Strength external electric field: {entry}")
-        if item == '-d-E0':
-            # Direction of electric external field.
+        if item == '-d':
+            # Direction of something.
             counter += 1
-            configuration['direction-E0'] = argv[counter]
-            entry = configuration['direction-E0']
-            logging.info(f"Direction external field: {entry}")
+            configuration['direction'] = argv[counter]
+            entry = configuration['direction']
+            logging.info(f"Direction: {entry}")
+        if item == '-d2':
+            # Direction of something.
+            counter += 1
+            configuration['other-direction'] = argv[counter]
+            entry = configuration['other-direction']
+            logging.info(f"Second direction: {entry}")
         if item == '-T':
             # Temperature
             counter += 1
             configuration['temperature'] = float(argv[counter])
             entry = configuration['temperature']
             logging.info(f'Temperature: {entry}.')
+        if item == '-R':
+            # Distance
+            counter += 1
+            configuration['distance'] = float(argv[counter])
+            entry = configuration['distance']
+            logging.info(f'Distance: {entry}.')
         if item == '-spec':
             # Particle specification name.
             counter += 1
@@ -94,6 +125,54 @@ def parse(argv: sys.argv) -> dict:
             configuration['spec-2'] = argv[counter]
             entry = configuration['spec-2']
             logging.info(f'Particle specification name #1: {entry}.')
+        if item == '-id-1':
+            # Particle identifier
+            counter += 1
+            configuration['id-1'] = argv[counter]
+            entry = configuration['id-1']
+            logging.info(f'Particle identifier #1: {entry}.')
+        if item == '-id-2':
+            # Particle identifier
+            counter += 1
+            configuration['id-2'] = argv[counter]
+            entry = configuration['id-2']
+            logging.info(f'Particle identifier #2: {entry}.')
+        if item == '-pbc-1':
+            # PBD in 1D only.
+            counter += 1
+            direction = argv[counter]
+            if direction == 'x':
+                configuration['pbc'] = [0]
+            elif direction == 'y':
+                configuration['pbc'] = [1]
+            else:
+                configuration['pbc'] = [2]
+        if item == '-bin-size':
+            # Bin size for some histogram.
+            counter += 1
+            configuration['bin-size'] = argv[counter]
+            entry = configuration['bin-size']
+            logging.info(f'Bin size histogram: {entry}')
+        if item == '--dielectric-constant':
+            counter += 1
+            configuration['epsilon'] = argv[counter]
+            entry = configuration['epsilon']
+            logging.info(f'Dielectric constant: {entry}')
+        if item == '--radius':
+            counter += 1
+            configuration['radius'] = argv[counter]
+            entry = configuration['radius']
+            logging.info(f'Radius: {entry}')
+        if item == '-exclude':
+            counter += 1
+            configuration['exclude'] = argv[counter]
+            entry = configuration['exclude']
+            logging.info(f'Excluding {entry}')
+        if item == '-n-skip':
+            counter += 1
+            configuration['n-skip'] = argv[counter]
+            entry = configuration['n-skip']
+            logging.info(f'Skipping the first {entry} state(s) from trajectory')
         counter += 1
 
     return configuration

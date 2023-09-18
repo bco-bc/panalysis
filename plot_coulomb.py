@@ -1,20 +1,20 @@
-"""Plots several approximate schemes for the Coulomb interaction between two charges at given distances.
+"""Plots several approximate schemes for the Coulomb potentials between two charges at given distances.
 """
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import interaction.lj_coulomb as lj_coulomb
+import potentials.lj_coulomb as lj_coulomb
 
 pi = np.pi
 e0 = 0.000572766
-eps = 2.5           # Default value of the relative permittivity (dielectric constant)
+eps = 1.0           # Default value of the relative permittivity (dielectric constant)
 eps_cs = eps        # Default value reaction field potential for part inside cutoff distance.
 eps_rf = 78.5       # Default value reaction field potential for part outside cutoff distance.
 dr = 0.1            # Distance spacing.
 r0 = 0.1            # Start value distance.
 alpha = 2.0         # Damping parameter, in nm^-1
 kappa = 0.0         # Inverse Debye length.
-q1 = 0.5           # Default charge value #1
+q1 = 0.5            # Default charge value #1
 q2 = -0.5           # Default charge value #2
 rc = 2.6            # Default cutoff distance, nm.
 
@@ -58,9 +58,12 @@ coulomb_rc = lj_coulomb.coulomb_cutoff(r, param_exact)
 sf = lj_coulomb.shifted_force(r, param_sf)
 dsf = lj_coulomb.damped_shifted_force(r, param_dsf)
 sfg = lj_coulomb.shifted_force_gradient(r, param_sf)
-rf = lj_coulomb.reaction_field(r, param_rf)
+rf, forces = lj_coulomb.reaction_field(r, param_rf)
 
-# Plot graph.
+# Plot graphs.
+figure = plt.figure(figsize=(8, 8))
+
+plt.subplot(2, 1, 1)
 plt.plot(r, coulomb_rc, color='black', label='Coulomb')
 label = 'DSF, alpha = ' + str(alpha) + '/nm'
 plt.plot(r, dsf, color='red', label=label)
@@ -72,4 +75,17 @@ plt.title(s)
 plt.xlabel('r (nm)')
 plt.ylabel('U(r) (kJ/mol)')
 plt.legend()
+
+plt.subplot(2, 1, 2)
+plt.plot(r, rf, color='orange', label=r'$U_{RF}(r)$')
+plt.plot(r, forces, color='blue', label=r'$F_{RF}(r)=-\frac{dU_{RF}(r)}{dr}$')
+plt.title('Reaction field')
+plt.xlabel('r (nm)')
+plt.legend()
+
+print(f'r: {r}')
+print(f'U_RF: {rf}')
+print(f'F_rf: {forces}')
+
+figure.tight_layout(pad=1.0)
 plt.show()

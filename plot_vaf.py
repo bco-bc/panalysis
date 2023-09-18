@@ -66,6 +66,7 @@ if __name__ == '__main__':
     trajectory.close()
     t, vaf = analyzer.results()
 
+    print(f'Results: times: {t}, VAF: {vaf}')
     logging.info(f'Number of particles with particle specification \'{analyzer.spec.name}\': {analyzer.n_specs}')
     logging.info(f'Length of time interval: {analyzer.t_max}')
     logging.info(f'Number of states/entries in trajectory: {analyzer.counter}')
@@ -74,19 +75,26 @@ if __name__ == '__main__':
     # Cubic interpolation.
     f_vaf = interpolate.interp1d(t, vaf, kind='cubic')
     n = t.size * 2
-    t_new = np.linspace(0, t[t.size - 1], num=2*t.size, endpoint=True)
+    t_new = np.linspace(t[0], t[t.size - 1], num=n, endpoint=True)
     vaf_new = f_vaf(t_new)
 
-    # Function for integration.
-    def vaf_f(time) -> float:
-        return f_vaf(time)
+    def vaf_f(s) -> float:
+        """ Function for integration of ACF
+        :param s Time
+        :return: Value of ACF at time s
+        """
+        return f_vaf(s)
 
     a = 0.0
     b = t[t.size-1]
+    logging.info(f'Integrating ACF from {a} to {b}.')
     val, err = integrate.quadrature(func=vaf_f, a=a, b=b, maxiter=1000)
-    k_B = constants.k * constants.N_A / 1.0e+03  # Boltzmann constant In kJ/(mol K)
+    logging.info(f'Value of integration of <v(t)v(0)>: {val}. Error= {err}')
+    k_B = constants.k * constants.N_A / 1.0e+03  # Boltzmann constant in kJ/(mol K)
     D = k_B * temperature / spec.mass * val
-    print(f'Diffusion (self) constant: {D} nm^2/ps')
+    print(f'(Self) Diffusion constant: {D} nm^2/ps')
+    D *= 1.0e-02
+    print(f'(Self) Diffusion constant: {D} cm^2/s')
 
     # Plot VAF
     zeros = np.zeros(shape=analyzer.n_bins)
@@ -94,6 +102,6 @@ if __name__ == '__main__':
     plt.plot(t_new, vaf_new, '--', color='blue')
     plt.xlabel(r'$t$ (ps)')
     plt.plot(t, zeros, '--', color='black')
-    plt.ylabel(r'$<v(t+s)v(t)$')
-    plt.legend(['data', 'cubic'])
+    plt.ylabel(r'$\frac{<v(t+s)v(t)>}{<v(0)v(0)>}$')
+    plt.legend(['VAF', 'Cubic interpolation'])
     plt.show()

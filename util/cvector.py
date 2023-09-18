@@ -1,21 +1,45 @@
 """Some utilities for cartesian vectors.
 """
-
-import numpy as np
 import math
 
+import numpy as np
 
-def inner(x_1: np.ndarray, x_2: np.ndarray) -> float:
-    """Returns inner product between two cartesian vectors
-    :param x_1 Cartesion vector with shape=(3,1) or (1,3)
-    :param x_2 Cartesion vector with shape=(3,1) or (1,3)
+
+def cos_polar_angle(v: np.ndarray) -> float:
+    """Returns cos(theta) where theta is the angle of the Cartesian vector v with the
+    positive z-axis.
+    :param v Cartesian vector with nonzero norm
+    :returns cos(theta) between -1 and +1.
     """
-    return np.inner(x_1, x_2)
+    return v[2] / np.linalg.norm(v)
 
 
-def norm(x: np.ndarray) -> float:
-    """Returns norm or length of a cartesion vector
-    :param x Vector with shape=(3,1) or (1,3)
+def polar_angle(v: np.ndarray) -> float:
+    """Returns theta where theta is the angle of the Cartesian vector v with the
+    positive z-axis.
+    :param v Cartesian vector.
+    :returns Theta between 0 and pi.
     """
-    v = inner(x, x)
-    return math.sqrt(v)
+    cos_a = cos_polar_angle(v)
+    a = math.acos(cos_a)
+    return a
+
+
+def azimuthal_angle(v: np.ndarray) -> float:
+    """Returns azimuthal angle of given Cartesian vector
+    :param v Cartesian vector
+    :returns Azimuthal angle between 0 and 2*pi
+    """
+    x = v[0]
+    y = v[1]
+    if x == 0.0 and y == 0.0:
+        raise Exception(f'{v}: azimuthal angle not defined for this Cartesian vector')
+
+    if x == 0.0 and y > 0.0:
+        a = 0.5 * math.pi
+    elif x == 0.0 and y < 0.0:
+        a = -0.5 * math.pi
+    else:
+        a = math.atan2(y, x)
+    a += math.pi
+    return a

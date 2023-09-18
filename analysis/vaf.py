@@ -15,9 +15,9 @@ class VAF(Analyzer):
 
     def __init__(self, dt: float, t_max: float, spec: ParticleSpec):
         """Constructor
-        :param dt Time difference between states.
-        :param t_max Length of time interval.
-        :param spec Particle specification identifying particle for which the VAF is computed.
+        :param dt Time difference between states
+        :param t_max Length of time interval
+        :param spec Particle specification identifying particle for which the VAF is computed
         """
         self.dt = dt
         self.t_max = t_max

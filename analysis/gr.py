@@ -8,6 +8,7 @@ from particle.particle_system import ParticleSystem
 from particle.particle_spec import ParticleSpec
 import util
 
+
 class Gr(Analyzer):
     """Calculates the radial distribution g(r) between two particles of given
     specification."""
@@ -17,19 +18,22 @@ class Gr(Analyzer):
                  box: np.ndarray,
                  r_max: float,
                  spec_1: ParticleSpec,
-                 spec_2: ParticleSpec):
-        """Constructor. All argument are required.
-        :param bin_size Bin size ofor g(r)
-        :param box Simulation box dimensions.
-        :param r_max Maximum r for g(r). Should be smaller than halve of any box dimensions.
-        :param spec_1 First of two particle specifications.
-        :param spec_2 Second of two particle specifications.
+                 spec_2: ParticleSpec,
+                 pbc: []):
+        """Constructor. All argument are required
+        :param bin_size Bin size for g(r)
+        :param box Simulation box dimensions
+        :param r_max Maximum r for g(r). Should be smaller than half of any box dimensions
+        :param spec_1 First of two particle specifications
+        :param spec_2 Second of two particle specifications
+        :param pbc Directions along which PBC should be applied. Subsets of {0,1,2}
         """
         self.bin_size = bin_size
         self.box = box
         self.r_max = r_max
         self.spec_1 = spec_1
         self.spec_2 = spec_2
+        self.pbc = pbc
 
         self.n_bins = int(self.r_max / self.bin_size)
         self.bin_size = self.r_max / self.n_bins
@@ -55,7 +59,7 @@ class Gr(Analyzer):
                     if pi.pid != pj.pid:
                         if pj.spec.name == self.spec_2.name:
                             r_j = pj.r
-                            r_ij = util.box.pbc_distance(self.box, r_i, r_j)
+                            r_ij = util.box.pbc_distance(self.box, r_i, r_j, self.pbc)
                             distance = np.linalg.norm(r_ij)
                             index = int(distance / self.bin_size)
                             if index < self.histogram.size:
@@ -64,8 +68,8 @@ class Gr(Analyzer):
     def results(self) -> (np.ndarray, np.ndarray):
         """Returns r and g(r)
         """
-        gr = np.zeros(shape = self.n_bins)
-        r = np.zeros(shape = self.n_bins)
+        gr = np.zeros(shape=self.n_bins)
+        r = np.zeros(shape=self.n_bins)
         factor = 4.0 * math.pi / 3.0
         rho_2 = self.n_spec_2 / (self.box[0] * self.box[1] * self.box[2])
         i_values = np.arange(0, self.n_bins)

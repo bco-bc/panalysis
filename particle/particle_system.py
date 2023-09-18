@@ -1,10 +1,12 @@
 """Particle system
 """
+
 from typing import List
 
 from particle.particle_spec_catalog import ParticleSpecCatalog
 from particle.particle import Particle
 from particle.particle_group import ParticleGroup
+import util
 import numpy as np
 import logging
 
@@ -68,7 +70,19 @@ class ParticleSystem:
         q = 0
         for p in self.all:
             q += p.charge()
-        return q;
+        return q
+
+    def dipole_moment(self, pbc: []):
+        """Returns the total dipole moment of the given particle system
+        :arg pbc Directions along which PBC should be applied. Subsets of {0,1,2}
+        """
+        # origin = np.array([0.0, 0.0, 0.0])
+        m_total = np.zeros(shape=3)
+        for p in self.all:
+            # delta_r = util.box.pbc_distance(box=self.box, r_i=p.r, r_j=origin, pbc=pbc)
+            delta_r = p.r
+            m_total += p.charge() * delta_r
+        return m_total
 
 
 def read_particle_sys(fn: str, catalog: ParticleSpecCatalog) -> ParticleSystem:

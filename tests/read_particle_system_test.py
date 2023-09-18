@@ -9,5 +9,6 @@ if __name__ == '__main__':
     catalog = read_particle_spec_catalog(fn)
 
     # fn = '/wrk3/tests/electrolyte.ps'
-    fn = '/localdisk/resources/small.ps'
+    # fn = '/localdisk/resources/small.ps'
+    fn = '/wrk3/tests/polymer-solution.ps'
     particle_system = read_particle_sys(fn, catalog)

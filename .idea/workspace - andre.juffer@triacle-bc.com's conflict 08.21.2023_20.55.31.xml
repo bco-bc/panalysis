@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="caa2cfde-f7a5-496e-9d8b-c7870b0e86ae" name="Changes" comment="Current, dipole moment">
+      <change afterPath="$PROJECT_DIR$/analysis/distance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analysis/velocity_profile.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_distance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_dsf.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_gaussian_electric_potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_guass_el_interaction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_probability.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_reaction_potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_solid_sphere_electric_potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_surface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot_velocity_profile.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/polarization/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/polarization/reaction_potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/potentials/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/potentials/coulomb_potetial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/potentials/gaussian_potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/potentials/potential.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/potentials/shifted_force.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reaction-potentials-im.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surface/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surface/dots.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surface/edges.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surface/triangles.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/3d-surface-plot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/units_mu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/panalysis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/panalysis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/analyzer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/current_acf.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/current_acf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/dipole_moment.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/dipole_moment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/gr.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/gr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/msd.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/msd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/slice_number_density.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/slice_number_density.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/vaf.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/vaf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interaction/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/analyze.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interaction/lj_coulomb.py" beforeDir="false" afterPath="$PROJECT_DIR$/potentials/lj_coulomb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interaction/pol_water.py" beforeDir="false" afterPath="$PROJECT_DIR$/potentials/pol_water.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/particle/particle_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/particle/particle_system.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_T.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_T.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_coulomb.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_coulomb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_current_acf.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_current_acf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_dipole_moment.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_dipole_moment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_gr.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_gr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_lj_coulomb.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_lj_coulomb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_msd.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_msd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_slice_number_density.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_slice_number_density.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_vaf.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_vaf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation/trajectory.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation/trajectory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/dipole_moment_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/dipole_moment_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/read_particle_system_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/read_particle_system_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/acf.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/acf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/box.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/box.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/cvector.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/cvector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/parse_argv.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/parse_argv.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="1xY7ybibvYviJ4MPHDFXQ8ZcZvx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/wrk3/simploce/panalysis&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/interaction" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.plot_dsf">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_coulomb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_coulomb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_dsf" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_dsf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_gaussian_electric_potential" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_gaussian_electric_potential.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_probability" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_probability.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_solid_sphere_electric_potential" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="panalysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_solid_sphere_electric_potential.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.plot_dsf" />
+        <item itemvalue="Python.plot_gaussian_electric_potential" />
+        <item itemvalue="Python.plot_solid_sphere_electric_potential" />
+        <item itemvalue="Python.plot_coulomb" />
+        <item itemvalue="Python.plot_probability" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="caa2cfde-f7a5-496e-9d8b-c7870b0e86ae" name="Changes" comment="" />
+      <created>1630520423740</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1630520423740</updated>
+      <workItem from="1630520426667" duration="524000" />
+      <workItem from="1633089100049" duration="1883000" />
+      <workItem from="1633431176691" duration="896000" />
+      <workItem from="1636633014981" duration="16000" />
+      <workItem from="1636633106292" duration="302000" />
+      <workItem from="1636633434966" duration="9009000" />
+      <workItem from="1637414496918" duration="1562000" />
+      <workItem from="1637582943018" duration="24000" />
+      <workItem from="1637586758103" duration="1633000" />
+      <workItem from="1638283002405" duration="42000" />
+      <workItem from="1638283072692" duration="6000" />
+      <workItem from="1638384080861" duration="662000" />
+      <workItem from="1638387446160" duration="4171000" />
+      <workItem from="1638428711912" duration="6545000" />
+      <workItem from="1638438393586" duration="22000" />
+      <workItem from="1638438461897" duration="730000" />
+      <workItem from="1638439595506" duration="10338000" />
+      <workItem from="1638458538686" duration="2434000" />
+      <workItem from="1638473079334" duration="1790000" />
+      <workItem from="1638474885128" duration="3413000" />
+      <workItem from="1638480315151" duration="1095000" />
+      <workItem from="1638534824691" duration="7832000" />
+      <workItem from="1638563828100" duration="517000" />
+      <workItem from="1638876477758" duration="11701000" />
+      <workItem from="1638954756324" duration="6065000" />
+      <workItem from="1638966599290" duration="23040000" />
+      <workItem from="1639039226762" duration="1049000" />
+      <workItem from="1639040286335" duration="4305000" />
+      <workItem from="1639044884686" duration="752000" />
+      <workItem from="1639049470956" duration="632000" />
+      <workItem from="1639050701186" duration="10606000" />
+      <workItem from="1639078187305" duration="1101000" />
+      <workItem from="1639079479413" duration="3505000" />
+      <workItem from="1639129868966" duration="9401000" />
+      <workItem from="1639148716926" duration="2204000" />
+      <workItem from="1639218923343" duration="18958000" />
+      <workItem from="1639394766018" duration="12847000" />
+      <workItem from="1639420566798" duration="6427000" />
+      <workItem from="1639430508088" duration="10082000" />
+      <workItem from="1639576631765" duration="2773000" />
+      <workItem from="1639647451653" duration="16091000" />
+      <workItem from="1639750216479" duration="4539000" />
+      <workItem from="1639759431720" duration="93000" />
+      <workItem from="1639909995140" duration="516000" />
+      <workItem from="1639910648140" duration="463000" />
+      <workItem from="1640196236960" duration="1759000" />
+      <workItem from="1640255556076" duration="3876000" />
+      <workItem from="1640263120235" duration="1982000" />
+      <workItem from="1640345776515" duration="631000" />
+      <workItem from="1640349279251" duration="437000" />
+      <workItem from="1640351871428" duration="864000" />
+      <workItem from="1640356389516" duration="66000" />
+      <workItem from="1640356692044" duration="61000" />
+      <workItem from="1650802993979" duration="32000" />
+      <workItem from="1650803081081" duration="38000" />
+      <workItem from="1650803148535" duration="165000" />
+      <workItem from="1651053475911" duration="9000" />
+      <workItem from="1652696485496" duration="14945000" />
+      <workItem from="1652724270803" duration="2082000" />
+      <workItem from="1652790481039" duration="491000" />
+      <workItem from="1652798533517" duration="3391000" />
+      <workItem from="1652866772832" duration="13019000" />
+      <workItem from="1652901634528" duration="415000" />
+      <workItem from="1652981017795" duration="959000" />
+      <workItem from="1653677788029" duration="2916000" />
+      <workItem from="1654264792144" duration="661000" />
+      <workItem from="1654603826731" duration="106000" />
+      <workItem from="1654604278182" duration="8051000" />
+      <workItem from="1654632740243" duration="40000" />
+      <workItem from="1654632831731" duration="1851000" />
+      <workItem from="1654719181322" duration="1790000" />
+      <workItem from="1654721069709" duration="481000" />
+      <workItem from="1654782216860" duration="92000" />
+      <workItem from="1655213915567" duration="3082000" />
+      <workItem from="1655292139300" duration="1457000" />
+      <workItem from="1655376885611" duration="1041000" />
+      <workItem from="1655810733195" duration="5000" />
+      <workItem from="1656506122233" duration="4433000" />
+      <workItem from="1656592963509" duration="9733000" />
+      <workItem from="1656612309050" duration="4273000" />
+      <workItem from="1657303105358" duration="1139000" />
+      <workItem from="1657536490395" duration="2498000" />
+      <workItem from="1660136774902" duration="17000" />
+      <workItem from="1660203863156" duration="255000" />
+      <workItem from="1660204159175" duration="44000" />
+      <workItem from="1665407228379" duration="4659000" />
+      <workItem from="1665487283101" duration="7733000" />
+      <workItem from="1665576864457" duration="4353000" />
+      <workItem from="1665583474652" duration="8973000" />
+      <workItem from="1666088715243" duration="14000" />
+      <workItem from="1666279829927" duration="31000" />
+      <workItem from="1667228059583" duration="1798000" />
+      <workItem from="1668519223884" duration="141000" />
+      <workItem from="1676552140818" duration="6497000" />
+      <workItem from="1676992944446" duration="1649000" />
+      <workItem from="1689163453893" duration="43000" />
+      <workItem from="1689164334725" duration="4677000" />
+      <workItem from="1689343737544" duration="2449000" />
+      <workItem from="1689572632886" duration="992000" />
+      <workItem from="1690190534372" duration="28000" />
+      <workItem from="1690367385016" duration="4846000" />
+      <workItem from="1690889502160" duration="5000" />
+      <workItem from="1690889587722" duration="40000" />
+      <workItem from="1690889651424" duration="554000" />
+      <workItem from="1690890248574" duration="11000" />
+      <workItem from="1690890365435" duration="297000" />
+      <workItem from="1690890679896" duration="782000" />
+      <workItem from="1690970756423" duration="51000" />
+      <workItem from="1690970933403" duration="2194000" />
+      <workItem from="1691058392601" duration="2502000" />
+      <workItem from="1691066974009" duration="3567000" />
+      <workItem from="1691139765286" duration="17402000" />
+      <workItem from="1691500124087" duration="5534000" />
+      <workItem from="1691575254629" duration="33428000" />
+      <workItem from="1691756929469" duration="3726000" />
+      <workItem from="1691837647618" duration="1411000" />
+      <workItem from="1692006738376" duration="4789000" />
+      <workItem from="1692018220464" duration="17624000" />
+      <workItem from="1692087563695" duration="335000" />
+      <workItem from="1692088247921" duration="11321000" />
+      <workItem from="1692107723232" duration="3436000" />
+      <workItem from="1692136346165" duration="744000" />
+      <workItem from="1692261049745" duration="14189000" />
+      <workItem from="1692348423644" duration="11782000" />
+      <workItem from="1692619830287" duration="10198000" />
+    </task>
+    <task id="LOCAL-00001" summary="Current ACF, particle group, revision of reading particle system from file.">
+      <created>1639149554183</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639149554183</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Program arguments">
+      <created>1639231104645</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639231104645</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Current, dipole moment">
+      <created>1639479303543</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639479303543</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Current ACF, particle group, revision of reading particle system from file." />
+    <MESSAGE value="Program arguments" />
+    <MESSAGE value="Current, dipole moment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Current, dipole moment" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/potentials/lj_coulomb.py</url>
+          <line>262</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/plot_dsf.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/panalysis$test_vaf.coverage" NAME="test_vaf Coverage Results" MODIFIED="1638976410778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$plot_gaussian_electric_potential.coverage" NAME="plot_gaussian_electric_potential Coverage Results" MODIFIED="1692622503682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/panalysis$read_particle_system_test.coverage" NAME="read_particle_system_test Coverage Results" MODIFIED="1653679029352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$current_acf_test.coverage" NAME="current_acf_test Coverage Results" MODIFIED="1639397948715" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$trajectory_test.coverage" NAME="trajectory_test Coverage Results" MODIFIED="1638458550875" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$test_trajectory.coverage" NAME="test_trajectory Coverage Results" MODIFIED="1638431078624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$slice_number_density_test.coverage" NAME="slice_number_density_test Coverage Results" MODIFIED="1638475072122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$vaf_test.coverage" NAME="vaf_test Coverage Results" MODIFIED="1639044944694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$plot_coulomb.coverage" NAME="plot_coulomb Coverage Results" MODIFIED="1637587931204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/panalysis$plot_dsf.coverage" NAME="plot_dsf Coverage Results" MODIFIED="1692629097679" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/panalysis$dipole_moment_test.coverage" NAME="dipole_moment_test Coverage Results" MODIFIED="1692019801660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$plot_reaction_potential.coverage" NAME="plot_reaction_potential Coverage Results" MODIFIED="1656602130598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/panalysis$msd_test.coverage" NAME="msd_test Coverage Results" MODIFIED="1639045090086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/panalysis$plot_surface.coverage" NAME="plot_surface Coverage Results" MODIFIED="1652880167844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/panalysis$displacement_test.coverage" NAME="displacement_test Coverage Results" MODIFIED="1638991180456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+  </component>
+</project>

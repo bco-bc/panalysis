@@ -30,7 +30,7 @@ def calculate(data, n_use=50):
         raise ValueError(msg)
     time0 = time[0]
     time -= time0
-    v = data[:, 1:]    # Each row, columns 1 and up.
+    v = data[:, 1:]  # Each row, columns 1 and up.
     acf = td.acf(v)
     acf0 = acf[0]
     nacf = acf / acf0

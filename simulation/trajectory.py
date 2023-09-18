@@ -16,7 +16,8 @@ class Trajectory():
 
     def next(self, particle_system: ParticleSystem) -> bool:
         """Reads next state from simulation and assigns it to the given particle system.
-        :return false if all states were read.
+        :param particle_system Particle system
+       :return false if all states were read, otherwise true
         """
         # Read next line from trajectory
         line = self.file.readline()

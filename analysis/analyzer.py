@@ -12,6 +12,11 @@ class Analyzer:
         """
         pass
 
+    def results(self):
+        """Return the results
+        """
+        pass
+
     @staticmethod
     def number_of_specs(particle_system: ParticleSystem, spec: ParticleSpec) -> int:
         """Returns number of particle of given specification.

@@ -1,79 +1,118 @@
-"""Dipole moment M(t) fluctuations
+"""Dipole moment M(t) fluctuations: dipole moment autocorrelation function (ACF), dipole moment orientation
+probability density function (orientation relative to positive z-axis),
+average dipole moment (components, strength (norm)).
 """
+import math
 
+import util
 from analysis.analyzer import Analyzer
 from particle.particle_system import ParticleSystem
 import numpy as np
+from queue import Queue
 import logging
-import util
 
 
 class DipoleMoment(Analyzer):
 
-    z_axis = np.array([0.0, 0.0, 1.0])
-    """Unit vector along the positive z-axis
-    """
-
-    def __init__(self, dt: float, t_max: float, cos_a_bin_size=0.01):
+    def __init__(self, dt: float, t_max: float, pbc: [], bin_size):
         """Constructor
         :param dt Time difference between states
         :param t_max Length of time interval
-        :param cos_a_bin_size Bin size for probability density function of cos(alpha), where
-        alpha is the angle between the total dipole moment and the positive z-axis.
+        :param pbc Directions along which PBC should be applied. Subsets of {0,1,2}
+        :param bin_size Bin size for probability density function of theta and cos(theta), where
+        theta is the angle between the total dipole moment and the positive z-axis.
         """
         self.dt = dt
         self.t_max = t_max
-        self.cos_a_bin_size = cos_a_bin_size
+        self.pbc = pbc
+        self.bin_size = bin_size
 
+        # Set up.
         self.counter = 0
-        self.n_bins = int(self.t_max / self.dt)
-        self.bin_size = self.t_max / self.n_bins
-        self.m = np.zeros(shape=0)
 
-        # From -1 to +1
-        self.cos_a_histogram = np.zeros(shape=int(2.0/cos_a_bin_size))
+        # ACF
+        self.n_bins = int(self.t_max / self.dt)  # Number of bins for ACF.
+        self.acf_bin_size = self.t_max / self.n_bins  # Adjusted bin size for ACF.
+        self.m_0 = np.zeros(shape=3)  # Dipole moment at the beginning of the time interval.
+        self.m_queue = Queue()  # Dipole moments throughout time interval.
+        self.m_acf = np.zeros(shape=self.n_bins)  # Dipole moment ACF.
+        self.m = np.zeros(shape=0)  # Dipole moment at time t.
+
+        # Theta in [0, pi], cos(theta) in [-1,+1]
+        self.n_bins_theta = int((math.pi - 2.0 * self.bin_size) / self.bin_size)
+        self.n_bins_cos_theta = int((2.0 - 2.0 * self.bin_size) / self.bin_size)
+        self.thetas = []
+        self.cos_thetas = []
 
     def perform(self, particle_system: ParticleSystem):
         self.counter += 1
+        t = self.counter * self.dt
 
         if self.counter == 1:
+            self.m_0 = particle_system.dipole_moment(self.pbc)
             q = particle_system.charge()
             logging.info(f'Total charge particle system: {q} ')
 
         # Total dipole moment.
-        origin = np.array([0.0, 0.0, 0.0])
-        m_total = np.zeros(shape=(1, 3))
-        for p in particle_system.all:
-            delta_r = util.box.pbc_distance(particle_system.box, p.r, origin)
-            m_total += p.charge() * delta_r
-        self.m = np.append(self.m, m_total)
+        m_now = particle_system.dipole_moment(self.pbc)
+        self.m = np.append(self.m, m_now)
+        self.m_queue.put(m_now)
+        if t > self.t_max:
+            self.m_0 = self.m_queue.get()
 
-        # Probability density function of cos(alpha))
-        cos_a = DipoleMoment.cos_angle__(m_total)
-        index = int((cos_a + 1.0) / self.cos_a_bin_size)
-        self.cos_a_histogram[index] += 1
+        # ACF
+        for n in np.arange(0, len(self.m_queue.queue)):
+            m_n = self.m_queue.get()
+            inner = np.inner(self.m_0, m_n)
+            self.m_acf[n] += inner
+            self.m_queue.put(m_n)
+
+        # Theta
+        cos_theta = util.cvector.cos_polar_angle(m_now)
+        theta = math.acos(cos_theta)
+        self.cos_thetas.append(cos_theta)
+        self.thetas.append(theta)
 
     def results(self):
-        """Returns t, M(t) over the full trajectory, <M(t)>, P(cos(alpha)), where alpha is the
-        angle with the positive z-axis and P is a probability density,
-        as well as <M(0)M(s)>/<M(0)M(0> over the time interval [0,t_max]. M(t) is the total
-        dipole moment at time t.
+        """Returns [t, M(t)] over the full trajectory, <M(t)> averaged over the full trajectory,
+        [theta, P(theta), p(theta)], where theta is the angle with the positive z-axis, P is the
+         probability and p is the probability density function, [t, <M(0)M(t)>/<M(0)M(0)>] is over the time
+         interval [0,t_max], and counter, the number of states. M(t) is the total dipole moment at time t.
         """
+        # ACF
+        self.m_acf /= self.counter
+        m_acf_0 = self.m_acf[0]
+        self.m_acf /= m_acf_0
+        t_m_acf = np.zeros(shape=self.m_acf.shape)
+        for k in np.arange(0, self.n_bins):
+            t_m_acf[k] = k * self.acf_bin_size
+
+        # Dipole moment
         a = self.m.ravel()
-        b = a.reshape(self.counter, 3)
-        t = np.zeros(shape=self.counter)
+        self.m = a.reshape(self.counter, 3)
+        t_m = np.zeros(shape=self.counter)
         for k in np.arange(0, self.counter):
-            t[k] = (k + 1) * self.dt
-        ave_m = sum(b[:]) / self.counter
+            t_m[k] = (k + 1) * self.dt
+        total_m = sum(self.m[:])
+        ave_m = total_m / self.counter
 
-        # Average. Compute probability density function for cos(alpha)).
-        p = self.cos_a_histogram / self.counter
-        total = sum(p[:])
-        p_normalized = p / (total * self.cos_a_bin_size)
-        return t, b, ave_m, p_normalized
+        # Probability density function of theta
+        p_theta, p_theta_bin_edges = np.histogram(a=self.thetas,
+                                                  bins=self.n_bins_theta,
+                                                  range=(self.bin_size, math.pi - self.bin_size),
+                                                  density=True)
+        theta = np.zeros(shape=len(p_theta))
+        for k in np.arange(0, len(p_theta)):
+            theta[k] = p_theta_bin_edges[k]
 
-    @staticmethod
-    def cos_angle__(m: np.ndarray) -> float:
-        """Returns cos(alpha) where alpha is the angle of m with the positive z-axis.
-        """
-        return  np.inner(DipoleMoment.z_axis, m) / np.linalg.norm(m)
+        # Probability density function of cos(theta).
+        p_cos_theta, p_cos_theta_bin_edges = np.histogram(a=self.cos_thetas,
+                                                          bins=self.n_bins_cos_theta,
+                                                          range=(-1.0 + self.bin_size, 1.0 - self.bin_size),
+                                                          density=True)
+        cos_theta = np.zeros(shape=len(p_cos_theta))
+        for k in np.arange(0, len(p_cos_theta)):
+            cos_theta[k] = p_cos_theta_bin_edges[k]
+
+        return ([t_m, self.m], ave_m, self.thetas, self.cos_thetas,
+                [theta, p_theta], [cos_theta, p_cos_theta], [t_m_acf, self.m_acf], self.counter)

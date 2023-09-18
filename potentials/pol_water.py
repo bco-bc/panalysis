@@ -7,12 +7,12 @@ from scipy import special
 
 K_b = 2.0e+6      # Force constant of bond between CG and DP, in kJ/(mol nm^4).
 r_CW_DP = 0.2     # 'Ideal' distance between the CW and DP particle.
-C12 = 1.298e-3    # CW - CW interaction, in kJ nm^12/mol.
-C6 = 0.088        # CW - CW interaction, in kJ nm^6/mol.
+C12 = 1.298e-3    # CW - CW potentials, in kJ nm^12/mol.
+C6 = 0.088        # CW - CW potentials, in kJ nm^6/mol.
 
 
 def intra_dw_dp(r):
-    """Calculates the bonded interaction between a DW and DP particle.
+    """Calculates the bonded potentials between a DW and DP particle.
 
     Parameters
     ----------
