@@ -22,11 +22,11 @@ def pbc_place_inside(box: np.ndarray, r_out: np.ndarray, pbc: []) -> np.ndarray:
 
 
 def pbc_distance(box: np.ndarray, r_i: np.ndarray, r_j: np.ndarray, pbc: []) -> np.ndarray:
-    """Returns distance between two points applying periodic boundary condition.
+    """Returns distance rij =|r_i - r_j| between two points applying periodic boundary condition.
     :param box Simulation box.
     :param r_i Point i.
     :param r_j Point j.
-    :param pbc Directions specification.
+    :param pbc Directions specification. Subsets of {0,1,2}.
     :return rij = r_i - r_j
     """
     r_ij = r_i - r_j

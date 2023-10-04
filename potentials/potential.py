@@ -9,7 +9,7 @@ class Potential:
         """Interaction energy U(r)
         :param r: Distance
         :param param: Parameters
-        :returns Interaction energy
+        :returns Value of potential at r.
         """
         pass
 
@@ -17,5 +17,6 @@ class Potential:
         """Returns dU(r)/dr. Note that force F = -dU(r)/dr.
         :param r: Distance
         :param param: Parameters
-        :returns Force"""
+        :returns Value of derivative of potential at r.
+        """
         pass

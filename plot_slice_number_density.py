@@ -11,6 +11,7 @@ from analysis.slice_number_density import SliceNumberDensity
 from particle.particle_spec_catalog import read_particle_spec_catalog
 from particle.particle_system import read_particle_sys, ParticleSystem
 from simulation.trajectory import Trajectory
+from analysis import analyze
 
 
 def usage():
@@ -27,6 +28,8 @@ def usage():
     print('-tr FN: FN is the trajectory file name. Default is \'trajectory.dat\'')
     print('-d DIRECTION: DIRECTION is the direction along which the number density in slices is computed. '
           'Default is the z-direction.')
+    print('-pbc-1 V: V is the direction along which PBC should be applied. One of {x, y, z}. Default is to apply '
+          'PBC in all directions.')
     print('-bin-size VALUE: VALUE is the bin size for the particle number density.')
     print()
 
@@ -50,6 +53,7 @@ if __name__ == '__main__':
         r_max = conf['r-max']
         pbc = conf['pbc']
         bin_size = float(conf['bin-size'])
+        n_skip = int(conf['n-skip'])
     except (KeyError, FileNotFoundError, FileExistsError):
         usage()
         sys.exit("Missing input argument(s).")
@@ -58,13 +62,12 @@ if __name__ == '__main__':
     print(f'Calculating probability density function for slices in the {direction} direction for {spec.name}.')
     trajectory = Trajectory(fn_trajectory)
     analyzer = SliceNumberDensity(bin_size=bin_size, box=particle_system.box, r_max=r_max, spec=spec, direction=direction, pbc=pbc)
-    while trajectory.next(particle_system):
-        analyzer.perform(particle_system)
+    analyze.perform(analyzer, particle_system, trajectory, n_skip=n_skip)
     trajectory.close()
     r, pdf = analyzer.results()
 
     # Plot
     plt.plot(r, pdf, color='red')
-    plt.xlabel(r'$r$ (nm)')
-    plt.ylabel(r'$p(r)$')
+    plt.xlabel(fr'${direction}$')
+    plt.ylabel(f'$p({direction})$')
     plt.show()

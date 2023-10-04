@@ -101,7 +101,7 @@ class Distance(Analyzer):
 
     def results(self) -> (np.ndarray, np.ndarray):
         """Returns t, distance[t], x(t), y(t), z(t) when dealing specific particles. Otherwise,
-        dis, x, y, z, are returned
+        distances, x, y, z, are returned
         """
         if not self.specs:
             t = np.zeros(shape=len(self.distances))

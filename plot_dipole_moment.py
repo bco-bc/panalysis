@@ -29,6 +29,8 @@ def usage():
     print('-s FN: FN is the filename particle specifications. Default is \'particle-specs.dat\'.')
     print('-tr FN: FN is the trajectory file name. Default is \'trajectory.dat\'')
     print('-T VALUE: VALUE is the temperature. Default is 298.15.')
+    print('-pbc-1 V: V is the direction along which PBC should be applied. One of {x, y, z}. Default is to apply '
+          'PBC in all directions.')
     print('-n-skip VALUE: Skip the first VALUE state(s) from trajectory. Default is 0.')
     print('-bin-size VALUE: Value is the bin size for the theta probability density function. '
           'Default is 0.1')
@@ -54,18 +56,21 @@ if __name__ == '__main__':
         pbc = conf['pbc']
         n_skip = int(conf['n-skip'])
         bin_size = float(conf['bin-size'])
+        direction = conf['direction']
+        direction_2 = conf['second-direction']
     except (KeyError, FileExistsError, FileNotFoundError):
         usage()
         sys.exit("Missing input argument(s) and/or non-existing files.")
 
     # Perform analysis.
     trajectory = Trajectory(fn_trajectory)
-    analyzer = DipoleMoment(dt=dt, t_max=t_max, pbc=pbc, bin_size=bin_size)
+    analyzer = DipoleMoment(dt=dt, t_max=t_max, pbc=pbc, bin_size=bin_size, box=particle_system.box)
     analyze.perform(analyzer, particle_system, trajectory, n_skip)
     trajectory.close()
 
     # Get results
-    t_m, ave_m, thetas, cos_thetas, theta_density, cos_theta_density, t_m_acf, n_states = analyzer.results()
+    t_m, ave_m, thetas, cos_thetas, theta_density, cos_theta_density, t_m_acf, dipole_moment_profile, n_states = (
+        analyzer.results())
     print(f'Number of states employed for analysis: {n_states}')
 
     # Average dipole moment.
@@ -108,7 +113,7 @@ if __name__ == '__main__':
     plt.plot(t, m_x, color='orange', label=r'M$_x$')
     plt.plot(t, m_y, color='blue', label=r'M$_y$')
     plt.plot(t, m_z, color='green', label=r'M$_z$')
-    plt.plot(t, norm_m_t, color='red')
+    plt.plot(t, norm_m_t, color='red', label='|M|')
     plt.plot(t, zeros, '--', color='black')
     plt.xlabel(r'$t$')
     plt.ylabel(r'$M(t)_k, k \in{x,y,z}$')
@@ -155,14 +160,17 @@ if __name__ == '__main__':
     yf = fft(y)
     xf = fftfreq(N, T)[:N//2]
     plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
-    #plt.xlim(0,2)
     plt.xlabel('f')
     plt.ylabel('F')
 
-
-
-    # print(f'Frequencies: {xf}')
-    # print(f'Transform: {yf}')
+    # Dipole moment profile
+    plt.subplot(4, 2, 7)
+    r, m_profile = dipole_moment_profile
+    zeros = np.zeros(shape=len(r))
+    plt.plot(r, m_profile, color='red')
+    plt.plot(r, zeros, '--', color='black')
+    plt.xlabel(direction_2)
+    plt.ylabel(f'$<m_{direction}({direction_2})>$')
 
     # Simple integration of probability density functions.
     integral = 0.0
@@ -183,12 +191,10 @@ if __name__ == '__main__':
     print(f'Integral of probability density function p(cos(theta)) (must be 1): {integral}')
     print(f'Average value of cos(theta) from probability density function p(cos(theta)): {average}')
 
-    # print()
-    # print(f'theta: {thetas}')
-    # print(f'p_theta: {p_theta}')
-    # print()
-    # print(f'cos_theta: {cos_thetas}')
-    # print(f'p_cos_theta: {p_cos_theta}')
+    # Total dipole from profile.
+    print(f'Sum {direction}-component according to dipole moment profile: {sum(m_profile)}')
+    print('NOTE: Dipole moment component profile is averaged over number of observations, '
+          'but -not- over group particle groups.')
 
     figure.tight_layout(pad=1.0)
     plt.show()

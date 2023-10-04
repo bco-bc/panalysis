@@ -43,7 +43,7 @@ class SliceNumberDensity(Analyzer):
 
         self.n_bins = int(self.r_max / self.bin_size)
         self.bin_size = self.r_max / self.n_bins
-        self.histogram = np.zeros(shape=self.n_bins)
+        self.positions = []
         self.counter = 0
         self.nSpec = 0
 
@@ -51,23 +51,14 @@ class SliceNumberDensity(Analyzer):
         self.counter += 1
         for p in particle_system.all:
             if p.spec.name is self.spec.name:
-                r = util.box.pbc_place_inside(self.box, p.r, pbc=[0, 1, 2])
-                index = int(r[self.coordinate] / self.bin_size)
-                if 0 <= index < self.n_bins:
-                    self.histogram[index] += 1.0
-                else:
-                    logging.warning('Particle position outside allowed range.')
-                    logging.warning(f'Particle ID: {p.pid}')
-                    logging.warning(f'Particle position: {p.r}')
-                    logging.warning(f'Index value: {index}')
+                r = util.box.pbc_place_inside(self.box, p.r, pbc=[0,1,2])
+                self.positions.append(r[self.coordinate])
 
     def results(self):
         """Returns probability density function (pdf)
         """
-        pdf = self.histogram / self.counter
-        total = sum(pdf[:])
-        pdf_normalized = pdf / (total * self.bin_size)
+        p, bin_edges = np.histogram(a=self.positions, bins=self.n_bins, density=True)
         r = np.zeros(shape=self.n_bins)
-        for k in np.arange(0, self.n_bins):
-            r[k] = k * self.bin_size
-        return r, pdf_normalized
+        for k in np.arange(0, len(bin_edges)-1):
+            r[k] = bin_edges[k]
+        return r, p

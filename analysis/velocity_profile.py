@@ -8,6 +8,7 @@ import numpy as np
 import util
 from analysis.analyzer import Analyzer
 from particle.particle_system import ParticleSystem
+from particle.particle_spec import ParticleSpec
 
 
 class VelocityProfile(Analyzer):
@@ -47,14 +48,17 @@ class VelocityProfile(Analyzer):
         self.velocities = np.zeros(shape=self.n_bins_2)
         self.counter = 0
         self.number_of_particles = 0
-        self.exclude = exclude
+        self.exclude = exclude.split(',')
+        print(f'Excluding: {self.exclude}')
 
     def perform(self, particle_system: ParticleSystem):
         self.counter += 1
         if self.counter == 1:
             self.number_of_particles = len(particle_system.all)
         for p in particle_system.all:
-            if self.exclude is None or self.exclude != p.spec.name:
+            name = p.spec.name
+            include = len([names for names in self.exclude if name in names]) == 0
+            if include:
                 r = util.box.pbc_place_inside(self.box, p.r, pbc=[0, 1, 2])
                 index = int(r[self.coordinate_2] / self.bin_size_2)
                 if 0 <= index < self.n_bins_2:
@@ -69,6 +73,6 @@ class VelocityProfile(Analyzer):
 
     def results(self):
         """Returns r, vp(r), the latter is the velocity profile."""
-        vp = self.velocities / (self.counter * self.number_of_particles)
+        vp = self.velocities / self.counter
         r = np.arange(0, self.box[self.coordinate_2], self.bin_size_2)
         return r, vp

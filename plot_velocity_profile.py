@@ -5,7 +5,7 @@ import logging
 import sys
 
 import matplotlib.pyplot as plt
-
+import numpy as np
 import util
 from analysis.velocity_profile import VelocityProfile
 from particle.particle_spec_catalog import read_particle_spec_catalog
@@ -27,7 +27,10 @@ def usage():
           'Default is the z-direction.')
     print('-d2 DIRECTION: DIRECTION is the second or other direction. Default is the x-direction.')
     print('-bin-size VALUE: VALUE is the bin size. Default is 0.1')
-    print('-exclude SPEC: SPEC is the particle specification name of particles that must not be included.')
+    print('-pbc-1 V: V is the direction along which PBC should be applied. One of {x, y, z}. Default is to apply '
+          'PBC in all directions.')
+    print('-exclude SPEC: SPEC is the particle specification names of particles that must be '
+          'excluded. This may be one name or a comma-separated list of names (no spaces)')
 
 
 if __name__ == '__main__':
@@ -62,5 +65,9 @@ if __name__ == '__main__':
     trajectory.close()
 
     r, velocity_profile = analyzer.results()
+    zeros = np.zeros(shape=len(r))
     plt.plot(r, velocity_profile, color='red')
+    plt.plot(r, zeros, '--', color='black')
+    plt.xlabel(direction_2)
+    plt.ylabel(f'$<v_{direction}>$')
     plt.show()
